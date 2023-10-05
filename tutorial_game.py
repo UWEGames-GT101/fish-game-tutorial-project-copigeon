@@ -20,7 +20,7 @@ class MyASGEGame(pyasge.ASGEGame):
             settings (pyasge.GameSettings): The game settings
         """
         pyasge.ASGEGame.__init__(self, settings)
-        self.renderer.setClearColour(pyasge.COLOURS.CORNFLOWER)
+        self.renderer.setClearColour(pyasge.COLOURS.BLACK)
 
         # create a game data object, we can store all shared game content here
         self.data = GameData()
@@ -55,7 +55,12 @@ class MyASGEGame(pyasge.ASGEGame):
         self.initFish()
 
     def initBackground(self) -> bool:
-        pass
+        if self.data.background.loadTexture("/data/images/background.png"):
+            # loaded, so make sure this is rendered first
+            self.data.background.z_order = -100
+            return True
+        else:
+            return False
 
     def initFish(self) -> bool:
         pass
@@ -64,6 +69,7 @@ class MyASGEGame(pyasge.ASGEGame):
         pass
 
     def initMenu(self) -> bool:
+        self.data.fonts["MainFont"] = self.data.renderer.loadFont("/data/font/KGHAPPY.ttf", 64)
         pass
 
     def clickHandler(self, event: pyasge.ClickEvent) -> None:
@@ -94,7 +100,7 @@ class MyASGEGame(pyasge.ASGEGame):
 
         if self.menu:
             # render the menu here
-            pass
+            self.data.renderer.render(self.data.background)
         else:
             # render the game here
             pass

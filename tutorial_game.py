@@ -95,15 +95,28 @@ class MyASGEGame(pyasge.ASGEGame):
     def keyHandler(self, event: pyasge.KeyEvent) -> None:
 
         #Only act when they is pressed and not released
-    if event.action == pyasge.KEYS.KEY_PRESSED:
+        if event.action == pyasge.KEYS.KEY_PRESSED:
 
-        #Use both the right and left keys to select the play/quit options
-        if event.key == pyasge.KEYS.KEY_RIGHT or event.key == pyasge.KEYS.KEY_LEFT:
-        if self.menu_option == 1 - self.menu_option
-            self.menu_option == 0:
-            self.play_option.string = ">START"
-            self.exit_option.colour = pyasge.COLOURS.HOTPINK
-            self
+            #Use both the right and left keys to select the play/quit options
+            if event.key == pyasge.KEYS.KEY_RIGHT or event.key == pyasge.KEYS.KEY_LEFT:
+                self.menu_option = 1 - self.menu_option
+                if self.menu_option == 0:
+                    self.play_option.string = ">Play!"
+                    self.exit_option.colour = pyasge.COLOURS.HOTPINK
+                    self.exit_option.string = "Quit!"
+                    self.exit_option.colour = pyasge.COLOURS.LIGHTSLATEGRAY
+                else:
+                    self.play_option.string = "Play!"
+                    self.exit_option.colour = pyasge.COLOURS.HOTPINK
+                    self.exit_option.string = ">Quit!"
+                    self.exit_option.colour = pyasge.COLOURS.LIGHTSLATEGRAY
+
+        #if enter key pressed action the menu
+        if event.key == pyasge.KEYS.KEY_ENTER:
+            if self.menu_option == 0:
+                self.menu = False
+            else:
+                self.signalExit()
 
     def spawn(self) -> None:
         pass

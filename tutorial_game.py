@@ -4,7 +4,14 @@ from gamedata import GameData
 
 
 def isInside(sprite, mouse_x, mouse_y) -> bool:
-    pass
+    #grab the sprites bounding box, the box has 4 vertices
+    bounds = sprite.getWorldBounds()
+
+    # check to see if mouse position falls within the x and y bounds
+    if bounds.v1.x < mouse_x < bounds.v1.y < mouse_y < mouse_y < bounds.v3.y:
+        return True
+
+    return False
 
 
 class MyASGEGame(pyasge.ASGEGame):
@@ -38,19 +45,19 @@ class MyASGEGame(pyasge.ASGEGame):
         self.exit_option = None
         self.menu_option = 0
 
-        # This is a comment
+        # loads background sprite into variable and calls the background function
         self.data.background = pyasge.Sprite()
         self.initBackground()
 
-        #
+        # defines menu text variable within the self and sets it to nothing calls the menu function
         self.menu_text = None
         self.initMenu()
 
-        #
+        # defines the scoreboard variable sets to nothing and calls the function
         self.scoreboard = None
         self.initScoreboard()
 
-        # This is a comment
+        # loads the sprite into fish variable and calls the initFish function
         self.fish = pyasge.Sprite()
         self.initFish()
 
@@ -99,22 +106,26 @@ class MyASGEGame(pyasge.ASGEGame):
 
     def keyHandler(self, event: pyasge.KeyEvent) -> None:
 
-        #Only act when they is pressed and not released
+        #Only act when the Key is pressed and not released
         if event.action == pyasge.KEYS.KEY_PRESSED:
 
             #Use both the right and left keys to select the play/quit options
-            if event.key == pyasge.KEYS.KEY_RIGHT or event.key == pyasge.KEYS.KEY_LEFT:
+            if event.key == pyasge.KEYS.KEY_LEFT:
                 self.menu_option = 1 - self.menu_option
-                if self.menu_option == 0:
+                if self.menu_option == 1:
                     self.play_option.string = ">Play!"
                     self.exit_option.colour = pyasge.COLOURS.HOTPINK
                     self.exit_option.string = "Quit!"
                     self.exit_option.colour = pyasge.COLOURS.LIGHTSLATEGRAY
-                else:
-                    self.play_option.string = "Play!"
-                    self.exit_option.colour = pyasge.COLOURS.HOTPINK
-                    self.exit_option.string = ">Quit!"
-                    self.exit_option.colour = pyasge.COLOURS.LIGHTSLATEGRAY
+                    self.menu_option = 0
+            elif event.key == pyasge.KEYS.KEY_RIGHT:
+                self.menu_option = 1 - self.menu_option
+                if self.menu_option == 1:
+                        self.play_option.string = "Play!"
+                        self.exit_option.colour = pyasge.COLOURS.HOTPINK
+                        self.exit_option.string = ">Quit!"
+                        self.exit_option.colour = pyasge.COLOURS.LIGHTSLATEGRAY
+                        self.menu_option = 0
 
         #if enter key pressed action the menu
         if event.key == pyasge.KEYS.KEY_ENTER:
@@ -123,7 +134,7 @@ class MyASGEGame(pyasge.ASGEGame):
             else:
                 self.signalExit()
 
-        # if 0
+        # if R spawn fish
         if event.key == pyasge.KEYS.KEY_R:
             self.initFish()
 

@@ -84,12 +84,12 @@ class MyASGEGame(pyasge.ASGEGame):
             else:
                 self.fish.loadTexture("/data/images/kenney_fishpack/fishTile_102.png")
 
-            fish_direction = random.randrange(1, 2)
+            fish_direction = random.randrange(1, 3)
             if fish_direction == 1:
-                
-            else:
-                pass
 
+                print("yes")
+            else:
+                print("no")
 
             self.fish.z_order = 1
             self.fish.scale  = random.randrange(1, 3)

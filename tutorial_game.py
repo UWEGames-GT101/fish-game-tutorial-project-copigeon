@@ -67,9 +67,32 @@ class MyASGEGame(pyasge.ASGEGame):
             return False
 
     def initFish(self) -> bool:
-        if self.fish.loadTexture("/data/images/kenney_fishpack/fishTile_073.png"):
+        if (self.fish.loadTexture):
+            random_fish = random.randrange(1, 7)
+            if random_fish == 1:
+                self.fish.loadTexture("/data/images/kenney_fishpack/fishTile_073.png")
+            elif random_fish == 2:
+                self.fish.loadTexture("/data/images/kenney_fishpack/fishTile_074.png")
+            elif random_fish == 3:
+                self.fish.loadTexture("/data/images/kenney_fishpack/fishTile_076.png")
+            elif random_fish == 4:
+                self.fish.loadTexture("/data/images/kenney_fishpack/fishTile_078.png")
+            elif random_fish == 5:
+                self.fish.loadTexture("/data/images/kenney_fishpack/fishTile_080.png")
+            elif random_fish == 6:
+                self.fish.loadTexture("/data/images/kenney_fishpack/fishTile_100.png")
+            else:
+                self.fish.loadTexture("/data/images/kenney_fishpack/fishTile_102.png")
+
+            fish_direction = random.randrange(1, 2)
+            if fish_direction == 1:
+                
+            else:
+                pass
+
+
             self.fish.z_order = 1
-            self.fish.scale  = 1
+            self.fish.scale  = random.randrange(1, 3)
             self.spawn()
             return True
         return False
@@ -110,6 +133,7 @@ class MyASGEGame(pyasge.ASGEGame):
             if isInside (self.fish, event.x, event.y):
                 self.data.score += 1 #add 1 to score
                 self.scoreboard.string = str(self.data.score).zfill(6)
+                self.initFish()
                 self.spawn() #spawn fish
 
     def keyHandler(self, event: pyasge.KeyEvent) -> None:
@@ -147,8 +171,9 @@ class MyASGEGame(pyasge.ASGEGame):
             self.initFish()
 
     def spawn(self) -> None:
-        x = random.randint(0, self.data.game_res[0] - self.fish.width)
-        y = random.randint(0, self.data.game_res[1] - self.fish.height)
+        self.fish.scale = random.randrange(1, 3)
+        x = random.randint(0, self.data.game_res[0] - (self.fish.width * self.fish.scale))
+        y = random.randint(0, self.data.game_res[1] - (self.fish.height * self.fish.scale))
 
         self.fish.x = x
         self.fish.y = y
